@@ -12,9 +12,6 @@ import ru.yandex.qatools.allure.annotations.Step;
 public class JDIExampleSite extends WebSite {
     public static ConvertPage convertPage;
 
-    @FindBy(css = ".login-block__submit-but>button")
-    public static Button login;
-
     @FindBy(css = ".converter-min_value--convert")
     public static Input setMoney;
 
@@ -39,12 +36,8 @@ public class JDIExampleSite extends WebSite {
     @Step
     public static void convertMoney(String money, String convertFromValue, String convertToValue) {
         setMoney.setValue(money);
-
-        Dropdown temp = convertFrom;
-
         convertFrom.select(convertFromValue);
         convertTo.select(convertToValue);
         convert.click();
-        System.out.println(123);
     }
 }
