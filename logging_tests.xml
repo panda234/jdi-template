@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="ALL Tests" parallel="tests" thread-count="1">
+    <listeners>
+        <listener class-name="com.epam.reportportal.testng.ReportPortalTestNGListener"/>
+    </listeners>
+
+    <test name="SandBox">
+        <classes>
+            <class name="org.mytests.tests.example.SimpleTest"/>
+        </classes>
+    </test>
+</suite>
