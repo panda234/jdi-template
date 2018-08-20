@@ -6,7 +6,4 @@
             <class name="org.mytests.tests.example.SimpleTest"/>
         </classes>
     </test>
-    <listeners>
-        <listener class-name="com.epam.reportportal.testng.ReportPortalTestNGListener" />
-    </listeners>
 </suite>
