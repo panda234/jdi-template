@@ -11,9 +11,9 @@ import static org.mytests.uiobjects.example.site.JDIExampleSite.*;
 public class SimpleTest extends SimpleTestsInit {
 
     @Test(dataProvider = "TestData")
-    public void loginTest(HashMap<String, String> data) throws InterruptedException, SQLException {
+    public void loginTest(HashMap<String, String> data) throws SQLException {
         convertPage.open();
-        convertMoney("1000", "RUB российский рубль",getValueFromMap(data));
+        convertMoney("1000", "RUB российский рубль", getValueFromMap(data));
         mainCours();
     }
 
