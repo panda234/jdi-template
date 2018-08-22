@@ -3,21 +3,22 @@ package org.mytests.tests.example;
 import com.epam.jdi.uitests.web.selenium.elements.composite.WebSite;
 import com.epam.jdi.uitests.web.testng.testRunner.TestNGBase;
 import org.mytests.uiobjects.example.site.JDIExampleSite;
-import org.testng.annotations.AfterTest;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 import static com.epam.jdi.uitests.core.settings.JDISettings.logger;
-
+import static org.mytests.uiobjects.example.site.JDIExampleSite.stmt;
 
 public class SimpleTestsInit extends TestNGBase {
 
     private static ResultSet resultSet;
-
-    private Statement stmt = null;
 
     private Connection conn = null;
 
@@ -27,6 +28,7 @@ public class SimpleTestsInit extends TestNGBase {
         logger.info("Run Tests");
     }
 
+    @BeforeSuite
     @DataProvider(name = "TestData")
     public Object[][] SetUpConnection() throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.jdbc.Driver");
@@ -47,10 +49,8 @@ public class SimpleTestsInit extends TestNGBase {
         return objects;
     }
 
-
-    @AfterTest
-    public void CloseTheConnection() throws SQLException {
-
+    @AfterSuite
+    public void CloseTheConnection() {
         if (resultSet != null) {
             try {
                 resultSet.close();
