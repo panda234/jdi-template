@@ -82,30 +82,19 @@ public class SQLHelper {
         updateRequest.append(";");
     }
 
-    public static void closeResultSet() {
-        if (resultSet != null) {
-            try {
-                resultSet.close();
-            } catch (Exception ignored) {
-            }
-        }
+    public static void closeResultSet() throws SQLException {
+        if (resultSet != null)
+            resultSet.close();
     }
 
-    public static void closeSTMT() {
-        if (stmt != null) {
-            try {
-                stmt.close();
-            } catch (Exception ignored) {
-            }
-        }
+    public static void closeSTMT() throws SQLException {
+        if (stmt != null)
+            stmt.close();
     }
 
-    public static void closeConnection() {
+    public static void closeConnection() throws SQLException {
         if (conn != null) {
-            try {
-                conn.close();
-            } catch (Exception ignored) {
-            }
+            conn.close();
         }
     }
 }
