@@ -2,8 +2,7 @@ package org.mytests.uiobjects.example.site;
 
 import org.openqa.selenium.WebElement;
 
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -11,15 +10,24 @@ import java.util.List;
 public class SQLHelper {
 
     public static Statement stmt = null;
+    public static ResultSet resultSet;
     private static StringBuilder request = null;
     private static String TableName;
+    private static Connection conn = null;
 
     private static StringBuilder createTableRequest() {
         return request = new StringBuilder("CREATE TABLE `" + getTableName() + "` (" +
                 "`BankName` VARCHAR(45) NOT NULL," +
                 "`Value` VARCHAR(45) NULL," +
-                "`Cours` VARCHAR(45) NULL," +
+                "`Course` VARCHAR(45) NULL," +
                 "PRIMARY KEY (`BankName`));");
+    }
+
+    public static ResultSet getTabelFromSQLTable() throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.jdbc.Driver");
+        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/121", "root", "");
+        stmt = conn.createStatement();
+        return stmt.executeQuery("select * from testdata");
     }
 
     private static String getTableName() {
@@ -49,7 +57,7 @@ public class SQLHelper {
             }
             request = new StringBuilder("INSERT INTO `")
                     .append(TableName)
-                    .append("` (`BankName`, `Value`, `Cours`) VALUES ('")
+                    .append("` (`BankName`, `Value`, `Course`) VALUES ('")
                     .append(bankName.get(i).getText())
                     .append("', '")
                     .append(sum.get(i).getText())
@@ -59,5 +67,32 @@ public class SQLHelper {
             stmt.executeUpdate(String.valueOf(request));
         }
         TableName = null;
+    }
+
+    public static void closeResultSet() {
+        if (resultSet != null) {
+            try {
+                resultSet.close();
+            } catch (Exception ignored) {
+            }
+        }
+    }
+
+    public static void closeSTMT() {
+        if (stmt != null) {
+            try {
+                stmt.close();
+            } catch (Exception ignored) {
+            }
+        }
+    }
+
+    public static void closeConnection() {
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (Exception ignored) {
+            }
+        }
     }
 }

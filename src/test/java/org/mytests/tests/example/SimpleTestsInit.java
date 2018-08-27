@@ -7,20 +7,13 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
 import static com.epam.jdi.uitests.core.settings.JDISettings.logger;
-import static org.mytests.uiobjects.example.site.SQLHelper.stmt;
+import static org.mytests.uiobjects.example.site.SQLHelper.*;
 
 public class SimpleTestsInit extends TestNGBase {
-
-    private static ResultSet resultSet;
-
-    private Connection conn = null;
 
     @BeforeSuite(alwaysRun = true)
     public static void setUp() {
@@ -31,12 +24,7 @@ public class SimpleTestsInit extends TestNGBase {
     @BeforeSuite
     @DataProvider(name = "TestData")
     public Object[][] SetUpConnection() throws SQLException, ClassNotFoundException {
-        Class.forName("com.mysql.jdbc.Driver");
-
-        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/121", "root", "");
-        stmt = conn.createStatement();
-        resultSet = stmt.executeQuery("select * from testdata");
-
+        resultSet = getTabelFromSQLTable();
         Object[][] objects = new Object[3][];
 
         int i = 0;
@@ -51,26 +39,8 @@ public class SimpleTestsInit extends TestNGBase {
 
     @AfterSuite
     public void CloseTheConnection() {
-        if (resultSet != null) {
-            try {
-                resultSet.close();
-            } catch (Exception ignored) {
-            }
-        }
-
-        if (stmt != null) {
-            try {
-                stmt.close();
-            } catch (Exception ignored) {
-            }
-        }
-
-        if (conn != null) {
-            try {
-                conn.close();
-            } catch (Exception ignored) {
-            }
-        }
-
+        closeResultSet();
+        closeSTMT();
+        closeConnection();
     }
 }
