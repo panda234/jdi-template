@@ -12,8 +12,7 @@ import ru.yandex.qatools.allure.annotations.Step;
 import java.sql.SQLException;
 import java.util.List;
 
-import static org.mytests.uiobjects.example.site.SQLHelper.createTable;
-import static org.mytests.uiobjects.example.site.SQLHelper.insertRequest;
+import static org.mytests.uiobjects.example.site.SQLHelper.*;
 
 public class JDIExampleSite extends WebSite {
 
@@ -51,6 +50,8 @@ public class JDIExampleSite extends WebSite {
     @Step
     public static void updateSQLDataBase() throws SQLException {
         createTable();
-        insertRequest(bankName, summ, courseOfMoney);
+        prepareInsertRequest();
+        prepareInsertQuery(bankName, summ, courseOfMoney);
+        updateTable();
     }
 }

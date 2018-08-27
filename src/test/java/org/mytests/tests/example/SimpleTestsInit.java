@@ -24,7 +24,7 @@ public class SimpleTestsInit extends TestNGBase {
     @BeforeSuite
     @DataProvider(name = "TestData")
     public Object[][] SetUpConnection() throws SQLException, ClassNotFoundException {
-        resultSet = getTabelFromSQLTable();
+        resultSet = getTableFromSQLTable();
         Object[][] objects = new Object[3][];
 
         int i = 0;
