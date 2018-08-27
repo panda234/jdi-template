@@ -10,18 +10,14 @@ import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.allure.annotations.Step;
 
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import static org.mytests.uiobjects.example.site.SQLHelper.createTable;
+import static org.mytests.uiobjects.example.site.SQLHelper.insertRequest;
 
 public class JDIExampleSite extends WebSite {
 
-    public static String TableName;
-
     public static ConvertPage convertPage;
-
-    public static Statement stmt = null;
 
     @FindBy(css = ".converter-min_value--convert")
     public static Input setMoney;
@@ -45,61 +41,16 @@ public class JDIExampleSite extends WebSite {
     public static Dropdown convertTo;
 
     @Step
-    public static void convertMoney(String money, String convertFromValue, String convertToValue) {
-        setMoney.setValue(money);
-        convertFrom.select(convertFromValue);
+    public static void convertMoney(String convertToValue) {
+        setMoney.setValue("1000");
+        convertFrom.select("RUB российский рубль");
         convertTo.select(convertToValue);
         convert.click();
     }
 
-    private static String getTableName() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd_HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        System.out.println(dtf.format(now));
-        if (TableName == null)
-            TableName = dtf.format(now);
-        return TableName;
-    }
-
-    private static StringBuilder request = null;
-
-    private static StringBuilder createTable() {
-       return request = new StringBuilder("CREATE TABLE `" + getTableName() + "` (" +
-                "`BankName` VARCHAR(45) NOT NULL," +
-                "`Value` VARCHAR(45) NULL," +
-                "`Cours` VARCHAR(45) NULL," +
-                "PRIMARY KEY (`BankName`));");
-    }
-
     @Step
-    public static void mainCours() throws SQLException {
-        List<WebElement> bankNameList = bankName;
-        List<WebElement> summList = summ;
-        List<WebElement> courseOfMoneyList = courseOfMoney;
-
-        int cost = 0;
-        if (courseOfMoneyList.size() == 2) {
-            cost++;
-        }
-
-        stmt.executeUpdate(String.valueOf(createTable()));
-
-        for (int i = 0; i < bankNameList.size() - cost; i++) {
-            int temp = 0;
-            if (cost == 1 & i > 0) {
-                temp++;
-            }
-            request = new StringBuilder("INSERT INTO `")
-                    .append(TableName)
-                    .append("` (`BankName`, `Value`, `Cours`) VALUES ('")
-                    .append(bankNameList.get(i).getText())
-                    .append("', '")
-                    .append(summList.get(i).getText())
-                    .append("', '")
-                    .append(courseOfMoneyList.get(i - temp).getText())
-                    .append("');");
-            stmt.executeUpdate(String.valueOf(request));
-        }
-        TableName = null;
+    public static void updateSQLDataBase() throws SQLException {
+        createTable();
+        insertRequest(bankName, summ, courseOfMoney);
     }
 }

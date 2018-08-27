@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 
 import static com.epam.jdi.uitests.core.settings.JDISettings.logger;
-import static org.mytests.uiobjects.example.site.JDIExampleSite.stmt;
+import static org.mytests.uiobjects.example.site.SQLHelper.stmt;
 
 public class SimpleTestsInit extends TestNGBase {
 
@@ -41,7 +41,7 @@ public class SimpleTestsInit extends TestNGBase {
 
         int i = 0;
         while (resultSet.next()) {
-            HashMap hashMap = new HashMap();
+            HashMap<String, String> hashMap = new HashMap<>();
             hashMap.put(resultSet.getString(1), resultSet.getString(2));
             objects[i] = new Object[]{hashMap};
             i++;

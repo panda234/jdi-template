@@ -13,8 +13,8 @@ public class SimpleTest extends SimpleTestsInit {
     @Test(dataProvider = "TestData")
     public void loginTest(HashMap<String, String> data) throws SQLException {
         convertPage.open();
-        convertMoney("1000", "RUB российский рубль", getValueFromMap(data));
-        mainCours();
+        convertMoney(getValueFromMap(data));
+        updateSQLDataBase();
     }
 
     private String getValueFromMap(HashMap<String, String> data) {
