@@ -38,7 +38,7 @@ public class SimpleTestsInit extends TestNGBase {
     }
 
     @AfterSuite
-    public void CloseTheConnection() {
+    public void CloseTheConnection() throws SQLException {
         closeResultSet();
         closeSTMT();
         closeConnection();
